@@ -1,3 +1,5 @@
+Project Title: The College Experience Game
+
 Members of Team 3 Jamboree (Group 3):
 Evan Digles
 Gavin Robson
