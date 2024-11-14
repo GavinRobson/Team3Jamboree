@@ -29,4 +29,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
   getAngle() {
     return Phaser.Math.RadToDeg(this.rotation);
   }
+
+  getPosition() {
+    return { x: this.x, y: this.y }
+  }
 }
