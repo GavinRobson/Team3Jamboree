@@ -13,6 +13,7 @@ const PlayGameButton = () => {
     <button 
       className="bg-slate-600 hover:bg-slate-400 p-2 rounded-lg"
       onClick={onClick}
+      style={{ width: "200px" }}
     >
       Play Now
     </button>
