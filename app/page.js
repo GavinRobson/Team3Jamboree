@@ -17,7 +17,7 @@ const startPage = (
 
 export default function Home() {
   return (
-    <div >
+    <div style = {{margin: 0, alignItems: "center", backgroundImage: "url(StartScreen.png)", backgroundSize: "cover", backgroundPosition: "center", height: "100vh", overflow: "hidden"}} >
       {startPage}
     </div>
   );
