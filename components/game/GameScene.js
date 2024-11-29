@@ -10,6 +10,20 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON("map", "Background_Map.json");
     this.load.image("tiles", "tilemap_packed.png");
+    this.load.image("map", "map.jpg");
+    
+    this.load.spritesheet("playerSprite", "Sprites/SimonWalk.png", {
+      frameWidth: 16,
+      frameHeight: 32,
+
+    });
+
+    this.load.spritesheet("paperSprite", "Sprites/paper.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+
+    });
+    
   }
 
   create() {
@@ -31,11 +45,44 @@ export default class GameScene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
 
+    // Sets up the animation for the player.
+    this.anims.create({
+      key: "walk",
+      frames: this.anims.generateFrameNumbers("playerSprite", {frames:[0, 1, 2, 3]}), 
+      frameRate:8,
+      repeat:-1,
+
+    })
+
+
+
     // Create player
-    this.player = new Player(this, this.scale.width / 2, this.scale.height / 2, 'player')
+    
+
+    this.player = new Player(this, this.scale.width / 2, this.scale.height / 2, 'playerSprite');
+    this.player.setScale(1); // makes the player bigger.
+
+    this.player.play("walk", true);
+   
+
+    /*
+    this.player = this.add.Sprite(10, 10, "playerSprite");
+    */
+
+    // Setup animations for the enemy(s)
+
+    this.anims.create({
+      key: "walkPaper",
+      frames: this.anims.generateFrameNumbers("paperSprite", {frames:[0, 1, 2, 3]}), 
+      frameRate:8,
+      repeat:-1,
+
+    })
 
     // Create enemy
-    this.enemy = new ExampleEnemy(this, this.scale.width / 2, this.scale.height / 2, 'enemy');
+    this.enemy = new ExampleEnemy(this, this.scale.width / 2, this.scale.height / 2, 'paperSprite');
+
+    this.enemy.play("walkPaper", true);
 
     this.cameras.main.startFollow(this.player);
     
