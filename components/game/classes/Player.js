@@ -12,6 +12,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.deadZone = 50;
 
     this.rotationSpeed = 0.1;
+
+    this.setScale(0.50);
  }
   update(cursors, pointer) {
     const distanceToCursor = Phaser.Math.Distance.Between(this.x, this.y, pointer.worldX, pointer.worldY);
@@ -24,6 +26,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else {
       this.body.setVelocity(0, 0);
     }
+    
   }
 
   getAngle() {

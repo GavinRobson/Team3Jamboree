@@ -12,6 +12,8 @@ export default class ExampleEnemy extends Phaser.GameObjects.Sprite {
       this.deadZone = 10;
   
       this.rotationSpeed = 5;
+
+      this.setScale(0.50);
    }
     update(playerPosition) {
       this.scene.physics.moveTo(this, playerPosition.x, playerPosition.y, this.speed)
