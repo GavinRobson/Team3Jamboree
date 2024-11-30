@@ -1,9 +1,12 @@
 import PlayGameButton from "@/components/home/play-game-button";
+import SignOutButton from "@/components/home/sign-out-button";
 
 const buttons = (
   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", marginTop: "150px"}}>
     <PlayGameButton  />
-    <button className="bg-slate-600 hover:bg-slate-400 p-2 rounded-lg" style={{ width: "200px" }} >Load Save</button> </div>
+    <button className="bg-slate-600 hover:bg-slate-400 p-2 rounded-lg" style={{ width: "200px" }} >Load Save</button>
+    <SignOutButton />
+  </div>
 )
 
 const startPage = (

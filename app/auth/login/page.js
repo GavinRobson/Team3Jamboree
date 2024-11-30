@@ -51,10 +51,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex justify-center mt-36">
-      <div className="bg-[#0e1015] px-16 py-8 self-center mt-2 h-2/5 max-w-md rounded-md w-full">
+    <div className="flex justify-center h-full">
+      <div className="bg-[#0e1015] px-16 py-8 self-center mt-2 h-1/2 max-w-md rounded-md w-full">
         <h2 className="text-white text-2xl font-semibold justify-center mb-8 flex w-full">
-          Welcome to Nexus
+          Welcome Back!
         </h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -119,7 +119,7 @@ const LoginPage = () => {
             </Button>
           </form>
         </Form>
-        <p className="text-neutral-500 mt-12 flex justify-center">
+        <p className="text-neutral-500 mt-14 flex justify-center">
           First time?
           <span
             onClick={() => router.push('/auth/sign-up')}
