@@ -23,6 +23,11 @@ export default class GameScene extends Phaser.Scene {
       frameHeight: 32,
 
     });
+
+    this.load.spritesheet('sodaSprite', 'Sprites/Soda.png', { 
+      frameWidth: 225, 
+      frameHeight: 225 
+    });
     
   }
 
@@ -112,6 +117,21 @@ export default class GameScene extends Phaser.Scene {
     schoollayer.setCollisionBetween(124, 211);
     this.physics.add.collider(this.enemy, signallayer);
     signallayer.setCollisionBetween(168, 411);
+
+    //create powerups
+    //this.sodaSprite = this.add.sprite(100, 100, 'powerupSprite');
+    this.time.addEvent({
+      delay: Phaser.Math.Between(5000, 10000), // Random delay for the first spawn
+      callback: this.spawnPowerup,
+      callbackScope: this,
+      loop: true
+    });
+  }
+
+  spawnPowerup() {
+    let randomX = Phaser.Math.Between(10, 1000);
+    let randomY = Phaser.Math.Between(10, 1000);
+    let powerup = this.physics.add.sprite(randomX, randomY, 'powerupSprite');
   }
 
   update(time, delta) {
@@ -120,5 +140,9 @@ export default class GameScene extends Phaser.Scene {
 
     // Update enemy
     this.enemy.update(this.player.getPosition());
+
   }
+
+  
+
 }

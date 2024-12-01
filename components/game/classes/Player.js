@@ -14,6 +14,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.rotationSpeed = 0.1;
 
     this.setScale(0.50);
+
  }
   update(cursors, pointer) {
     const distanceToCursor = Phaser.Math.Distance.Between(this.x, this.y, pointer.worldX, pointer.worldY);
@@ -35,5 +36,41 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   getPosition() {
     return { x: this.x, y: this.y }
+  }
+
+  // Powerups
+  applyBoost(boost, effect) {
+    if (effect === "speed") {
+      this.speed += boost;
+    }
+    this.activePowerUps.push({ boost, effect });
+    console.log(`Power-up applied: ${effect}, Boost: ${boost}, Current speed: ${this.speed}`);
+  }
+
+  removeBoost(boost, effect) {
+    if (effect === "speed") {
+      this.speed -= boost;
+    }
+    console.log(`Power-up removed: ${effect}, Boost: ${boost}, Current speed: ${this.speed}`);
+    this.activePowerUps = this.activePowerUps.filter(p => p.effect !== effect || p.boost !== boost);
+  }
+
+  // Weapon 
+  equipWeapon(weaponName) {
+    console.log(`Equipped ${weaponName}`);
+    return { name: weaponName, damage: 1 };
+  }
+
+  replaceWeapon(newWeapon) {
+    console.log(`Replaced ${this.currentWeapon.name} with ${newWeapon.name}`);
+    this.currentWeapon = newWeapon;
+  }
+
+  weaponPickup(newWeapon) {
+    if (newWeapon.damage > this.currentWeapon.damage) {
+      this.replaceWeapon(newWeapon);
+    } else {
+      console.log(`Kept current weapon: ${this.currentWeapon.name}`);
+    }
   }
 }
