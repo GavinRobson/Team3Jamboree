@@ -51,7 +51,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex justify-center h-full">
+    <div 
+      className="flex justify-center h-full"
+    >
       <div className="bg-[#0e1015] px-16 py-8 self-center mt-2 h-1/2 max-w-md rounded-md w-full">
         <h2 className="text-white text-2xl font-semibold justify-center mb-8 flex w-full">
           Welcome Back!
@@ -114,7 +116,7 @@ const LoginPage = () => {
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
-            <Button disabled={isPending} type="submit" className="w-full">
+            <Button disabled={isPending} type="submit" className="w-full" variant="auth">
               Login
             </Button>
           </form>

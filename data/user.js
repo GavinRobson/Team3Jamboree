@@ -14,7 +14,7 @@ export const getUserById = async (id) => {
     return null;
   }
   try {
-    const user = await db.user.findUnique({ where: { id } });
+    const user = await db.user.findUnique({ where: { id }, include: { gameState: true } });
 
     return user;
   } catch (error) {

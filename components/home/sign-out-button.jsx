@@ -1,4 +1,5 @@
 import { signOut } from "@/auth";
+import { Button } from "../ui/button";
 
 const SignOutButton = () => {
   return ( 
@@ -8,13 +9,13 @@ const SignOutButton = () => {
           await signOut({ redirectTo: '/auth/login', redirect: true });
         }}
       >
-        <button 
-          className="bg-slate-600 hover:bg-slate-400 p-2 rounded-lg"
-          type='submit'
-          style={{ width: "200px" }}
+        <Button
+          variant="auth"
+          type="submit"
+          className="w-[200px] outline outline-1"
         >
           Sign Out
-        </button>
+        </Button>
       </form>
    );
 }

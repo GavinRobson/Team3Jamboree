@@ -15,6 +15,29 @@ model User {
   password      String
   emailVerified DateTime?
 
+  gameState GameState? @relation(fields: [gameState_id], references: [id])
+  gameState_id String? @unique
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model GameState {
+  id        String    @id @default(cuid())
+  time      Float
+  x_pos     Float
+  y_pos     Float
+  
+  user User?
+
+  inventory Inventory @relation(fields: [inventory_id], references: [id])
+  inventory_id String @unique
+}
+
+model Inventory {
+  id String @id @default(cuid())
+  weapon_ids String[]
+  powerup_ids String[]
+
+  gameState GameState?
 }
