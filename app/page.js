@@ -7,7 +7,7 @@ import { getUserById } from "@/data/user";
 
 export default async function Home() {
   const session = await auth();
-  const user = await getUserById(session.user.id);
+  const user = await getUserById(session?.user?.id);
   return (
     <div style = {{margin: 0, alignItems: "center", backgroundImage: "url(StartScreen.png)", backgroundSize: "cover", backgroundPosition: "center", height: "100vh", overflow: "hidden"}} >
       <div style={{ textAlign: "center", padding: "10px 20px",marginTop: "100px"}}> 
