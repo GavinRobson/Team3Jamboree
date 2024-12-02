@@ -1,5 +1,5 @@
 export default class Player extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, texture) {
+  constructor(scene, x, y, texture, inventory, health) {
     super(scene, x, y, texture);
 
     scene.add.existing(this);
@@ -14,13 +14,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.rotationSpeed = 0.1;
 
     this.setScale(0.50);
+    this.health = health
+    this.inventory = inventory;
 
  }
   update(cursors, pointer) {
+
     const distanceToCursor = Phaser.Math.Distance.Between(this.x, this.y, pointer.worldX, pointer.worldY);
 
     if (distanceToCursor > this.deadZone) {
-      const angleToCursor = Phaser.Math.Angle.Between(this.x, this.y, pointer.worldX, pointer.worldY);
+
       this.scene.physics.moveTo(this, pointer.worldX, pointer.worldY, this.speed);
 
       this.setFlipX(pointer.worldX < this.x);
@@ -28,8 +31,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else {
       this.body.setVelocity(0, 0);
     }
-    
   }
+
 
   getAngle() {
     return Phaser.Math.RadToDeg(this.rotation);
@@ -37,6 +40,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   getPosition() {
     return { x: this.x, y: this.y }
+  }
+
+  attack(pointer) {
   }
 
   // Powerups

@@ -32,6 +32,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.topText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#ffffff' })
+    this.topText.setScrollFactor(0);
+    this.topText.setDepth(10)
     this.map = this.make.tilemap({key: "map", tileWidth: 16, tileHeight: 16});
     const tileset = this.map.addTilesetImage("tilemap_packed", "tiles");
     const grasslayer = this.map.createLayer("Grass", tileset, 0, 0);
@@ -121,7 +124,7 @@ export default class GameScene extends Phaser.Scene {
     //create powerups
     //this.sodaSprite = this.add.sprite(100, 100, 'powerupSprite');
     this.time.addEvent({
-      delay: Phaser.Math.Between(5000, 10000), // Random delay for the first spawn
+      delay: Phaser.Math.Between(30000, 40000), // Random delay for the first spawn
       callback: this.spawnPowerup,
       callbackScope: this,
       loop: true
@@ -142,7 +145,4 @@ export default class GameScene extends Phaser.Scene {
     this.enemy.update(this.player.getPosition());
 
   }
-
-  
-
 }
