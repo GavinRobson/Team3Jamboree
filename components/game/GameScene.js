@@ -131,7 +131,7 @@ export default class GameScene extends Phaser.Scene {
   spawnPowerup() {
     let randomX = Phaser.Math.Between(10, 1000);
     let randomY = Phaser.Math.Between(10, 1000);
-    let powerup = this.physics.add.sprite(randomX, randomY, 'powerupSprite');
+    let powerup = this.physics.add.sprite(randomX, randomY, 'sodaSprite');
   }
 
   update(time, delta) {

@@ -14,6 +14,7 @@ model User {
   email         String    @unique
   password      String
   emailVerified DateTime?
+  score Int?
 
   gameState GameState? @relation(fields: [gameState_id], references: [id])
   gameState_id String? @unique
@@ -23,10 +24,10 @@ model User {
 }
 
 model GameState {
-  id        String    @id @default(cuid())
-  time      Float
-  x_pos     Float
-  y_pos     Float
+  id         String    @id @default(cuid())
+  checkpoint Int
+  level      Int
+  health     Int
   
   user User?
 
