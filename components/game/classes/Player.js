@@ -23,7 +23,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       const angleToCursor = Phaser.Math.Angle.Between(this.x, this.y, pointer.worldX, pointer.worldY);
       this.scene.physics.moveTo(this, pointer.worldX, pointer.worldY, this.speed);
 
-      this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, angleToCursor, this.rotationSpeed);
+     // this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, angleToCursor, this.rotationSpeed);
     } else {
       this.body.setVelocity(0, 0);
     }
