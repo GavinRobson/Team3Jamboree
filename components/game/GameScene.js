@@ -24,6 +24,12 @@ export default class GameScene extends Phaser.Scene {
 
     });
 
+    this.load.spritesheet("examSprite", "Sprites/ExamSpriteSheet.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+
+    });
+
     this.load.spritesheet('sodaSprite', 'Sprites/Soda.png', { 
       frameWidth: 225, 
       frameHeight: 225 
@@ -87,10 +93,22 @@ export default class GameScene extends Phaser.Scene {
 
     })
 
+    this.anims.create({
+      key: "walkExam",
+      frames: this.anims.generateFrameNumbers("examSprite", {frames:[0, 1, 2]}), 
+      frameRate:8,
+      repeat:-1,
+
+    })
+
     // Create enemy
     this.enemy = new ExampleEnemy(this, this.scale.width / 2, this.scale.height / 2, 'paperSprite');
 
     this.enemy.play("walkPaper", true);
+
+    this.enemy2 = new ExampleEnemy(this, this.scale.width / 3, this.scale.height / 3, 'examSprite');
+
+    this.enemy2.play("walkExam", true);
 
     this.cameras.main.startFollow(this.player);
     
@@ -143,6 +161,8 @@ export default class GameScene extends Phaser.Scene {
 
     // Update enemy
     this.enemy.update(this.player.getPosition());
+
+    this.enemy2.update(this.player.getPosition());
 
   }
 }
