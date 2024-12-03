@@ -277,6 +277,7 @@ export default class GameScene extends Phaser.Scene {
 
   updateTimer() {
     this.timeElapsed++;
+
     this.enemySpawner();
     let minutes = Math.floor(this.timeElapsed / 60);
     let seconds = this.timeElapsed % 60;
@@ -292,10 +293,19 @@ export default class GameScene extends Phaser.Scene {
       this.data.set('currentWeapon', this.player.getCurrentWeapon());
     }
 
-    if (this.timeElapsed > 240) {
+    if (this.timeElapsed === 240 && !this.spawned) {
       const pen = this.weapons.create(this.cameras.main.width / 2 + 700, this.map.heightInPixels - 75, 'penSprite');
       pen.setData('weaponId', 1);
       pen.setScale(1);
+
+      this.tweens.add({
+        targets: pen,
+        x: pen.x - 20,
+        ease: 'Sine.easeInOut',
+        duration: 1000,
+        yoyo: true,
+        repeat: -1
+      })
     }
   }
   update(time, delta) {
