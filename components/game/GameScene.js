@@ -145,21 +145,48 @@ export default class GameScene extends Phaser.Scene {
     signallayer.setCollisionBetween(168, 411);
 
     //create powerups
-    //this.sodaSprite = this.add.sprite(100, 100, 'powerupSprite');
+
+    this.powerups = this.physics.add.group()
+    this.spawnPowerup();
+
+    this.physics.add.collider(this.player, this.powerups, (player, powerup) => {
+      const newPowerup = { name: powerup.texture.key, effect: powerup.effect };
+      player.applyBoost(newPowerup);
+      powerup.destroy();
+    });
+
     this.time.addEvent({
-      delay: Phaser.Math.Between(30000, 40000), // Random delay for the first spawn
+      delay: Phaser.Math.Between(30000, 40000),
       callback: this.spawnPowerup,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
   }
 
   spawnPowerup() {
-    let randomX = Phaser.Math.Between(10, 1000);
-    let randomY = Phaser.Math.Between(10, 1000);
-    let powerup = this.physics.add.sprite(randomX, randomY, 'sodaSprite');
+    let randomX = Phaser.Math.Between(0, this.map.widthInPixels - 10);
+    let randomY = Phaser.Math.Between(0, this.map.heightInPixels - 10);
+    let powerup = this.powerups.create(randomX, randomY, 'sodaSprite');
+
+    powerup.effect = 'speedBoost';
+    powerup.setScale(0.5);
   }
 
+  /*spawnWeapon() {
+    let randomX = Phaser.Math.Between(0, this.map.widthInPixels - 10);
+    let randomY = Phaser.Math.Between(0, this.map.heightInPixels - 10);
+    //let weapon = this.physics.add.sprite(randomX, randomY, 'pencilSprite');
+    // Spawn weapon
+    const weapons = this.physics.add.group();
+
+    // Equip weapon
+    this.physics.add.overlap(player, weapons, (player, weapon) => {
+      const newWeapon = { name: weapon.texture.key, damage: weapon.damage };
+      player.handleWeaponPickup(newWeapon);
+      weapon.destroy();
+    });
+  }
+*/
   update(time, delta) {
     // Update player
     this.player.update(this.input.keyboard.createCursorKeys(), this.pointer);
@@ -170,4 +197,8 @@ export default class GameScene extends Phaser.Scene {
     this.enemy2.update(this.player.getPosition());
 
   }
+
+  
+
+
 }
