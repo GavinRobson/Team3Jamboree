@@ -12,11 +12,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.deadZone = 50;
 
     this.rotationSpeed = 0.1;
-
     this.setScale(0.50);
     this.health = health
     this.inventory = inventory;
 
+    this.currentWeapon = this.equipWeapon('DefaultWeapon');
+    this.activePowerUps = [];
  }
   update(cursors, pointer) {
 
