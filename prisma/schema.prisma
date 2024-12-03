@@ -14,30 +14,30 @@ model User {
   email         String    @unique
   password      String
   emailVerified DateTime?
-  score Int?
+  score         Int?
 
-  gameState GameState? @relation(fields: [gameState_id], references: [id])
-  gameState_id String? @unique
+  gameState GameState? @relation("UserGameState")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model GameState {
-  id         String    @id @default(cuid())
+  id         String @id @default(cuid())
   checkpoint Int
   level      Int
   health     Int
-  
-  user User?
 
-  inventory Inventory @relation(fields: [inventory_id], references: [id])
-  inventory_id String @unique
+  user    User?   @relation("UserGameState", fields: [user_id], references: [id])
+  user_id String? @unique
+
+  inventory    Inventory? @relation(fields: [inventory_id], references: [id])
+  inventory_id String?    @unique
 }
 
 model Inventory {
-  id String @id @default(cuid())
-  weapon_ids String[]
+  id          String   @id @default(cuid())
+  weapon_ids  String[]
   powerup_ids String[]
 
   gameState GameState?

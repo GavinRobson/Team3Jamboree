@@ -3,8 +3,13 @@
 import { useEffect, useRef } from "react";
 import * as Phaser from "phaser";
 import GameScene from "@/components/game/GameScene";
+import PauseMenu from "@/components/game/PauseMenu";
+import { useSearchParams } from "next/navigation";
 
 export default function GamePage() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('u');
+
   const gameContainerRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -16,7 +21,7 @@ export default function GamePage() {
       height: window.innerHeight,
       parent: gameContainerRef.current,
       canvas: canvasRef.current,
-      scene: GameScene,
+      scene: [GameScene, PauseMenu],
       physics: {
         default: "arcade",
         arcade: {
@@ -27,6 +32,7 @@ export default function GamePage() {
     console.log(config)
     // Initialize Phaser game instance
     const game = new Phaser.Game(config);
+    game.scene.start('GameScene', { userId: userId })
 
     // Cleanup function to destroy the Phaser instance when component unmounts
     return () => {

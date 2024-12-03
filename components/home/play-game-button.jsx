@@ -9,7 +9,7 @@ const PlayGameButton = (user) => {
   const router = useRouter();
 
   const onClick = () => {
-    user.gameState ? setModalOpen(!modalOpen) : router.push('/game')
+    user.gameState ? setModalOpen(!modalOpen) : router.push(`/game?u=${user.user.id}`)
   };
   
   return ( 
@@ -34,6 +34,7 @@ const PlayGameButton = (user) => {
               <Button
                 className="outline outline-1 w-[200px]"
                 variant="auth"
+                onClick={() => {router.push('/game')}}
                 >
                 YES, proceed
               </Button>

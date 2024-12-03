@@ -7,30 +7,34 @@ export default class GameScene extends Phaser.Scene {
     super("GameScene");
   }
 
+  init(data) {
+    this.userId = data.userId;
+    console.log('User ID in GameScene:', this.userId);
+  }
+
   preload() {
-    this.load.tilemapTiledJSON("map", "Background_Map.json");
-    this.load.image("tiles", "tilemap_packed.png");
-    this.load.image("map", "map.jpg");
+    this.load.tilemapTiledJSON("map", "/Background_Map.json");
+    this.load.image("tiles", "/tilemap_packed.png");
     
-    this.load.spritesheet("playerSprite", "Sprites/SimonWalk.png", {
+    this.load.spritesheet("playerSprite", "/Sprites/SimonWalk.png", {
       frameWidth: 16,
       frameHeight: 32,
 
     });
 
-    this.load.spritesheet("paperSprite", "Sprites/paper.png", {
+    this.load.spritesheet("paperSprite", "/Sprites/paper.png", {
       frameWidth: 32,
       frameHeight: 32,
 
     });
 
-    this.load.spritesheet("examSprite", "Sprites/ExamSpriteSheet.png", {
+    this.load.spritesheet("examSprite", "/Sprites/ExamSpriteSheet.png", {
       frameWidth: 64,
       frameHeight: 64,
 
     });
 
-    this.load.spritesheet('sodaSprite', 'Sprites/Soda.png', { 
+    this.load.spritesheet('sodaSprite', '/Sprites/Soda.png', { 
       frameWidth: 225, 
       frameHeight: 225 
     });
@@ -46,7 +50,7 @@ export default class GameScene extends Phaser.Scene {
     const screenWidth = this.cameras.main.width;
     const horizontalOffset = (screenWidth - mapWidth) / 2;
     
-    this.topText = this.add.text(horizontalOffset + 16, 16, 'Score: 0', { fontSize: '24px', fill: '#ffffff' })
+    this.topText = this.add.text(horizontalOffset + 16, 16, 'Score: 0', { fontSize: '24px', fill: '#000000' })
     this.topText.setScrollFactor(0);
     this.topText.setDepth(10)
     // Create layers and shift them by the horizontal offset
@@ -73,11 +77,7 @@ export default class GameScene extends Phaser.Scene {
 
     })
 
-
-
     // Create player
-    
-
     this.player = new Player(this, this.scale.width / 2, this.scale.height / 2, 'playerSprite');
     this.player.setScale(1); // makes the player bigger.
 
@@ -88,6 +88,14 @@ export default class GameScene extends Phaser.Scene {
     this.player = this.add.Sprite(10, 10, "playerSprite");
     */
 
+    // Pause functionality
+    this.input.keyboard.on('keydown-P', () => {
+      this.scene.pause();
+      this.scene.launch('PauseMenu', { userId: this.userId });
+    })
+
+    this.pauseText = this.add.text(mapWidth - 80, 16, 'Press P to Pause', { fontSize: '24px', fill: '#000000' });
+    this.pauseText.setScrollFactor(0)
     // Setup animations for the enemy(s)
 
     this.anims.create({
@@ -152,12 +160,48 @@ export default class GameScene extends Phaser.Scene {
       callbackScope: this,
       loop: true
     });
+
+    this.timerText = this.add.text(screenWidth / 2, 16, `Time: 0:00`, { fontSize: '24px', fill: '#000000' })
+    this.timerText.setOrigin(0.5);
+    this.timerText.setScrollFactor(0);
+    this.timerText.setDepth(10);
+
+    this.timeElapsed = 0;
+    this.timerEvent = this.time.addEvent({
+      delay: 1000,
+      callback: this.updateTimer,
+      callbackScope: this,
+      loop: true
+    })
+
+    //set new gamestate
+    this.data.set('checkpoint', 0);
+    this.data.set('level', 0);
+    this.data.set('score', 0);
+    this.data.set('health', 100);
+    this.data.set('weapons', ["0"]);
+    this.data.set('powerups', []);
   }
 
   spawnPowerup() {
     let randomX = Phaser.Math.Between(10, 1000);
     let randomY = Phaser.Math.Between(10, 1000);
     let powerup = this.physics.add.sprite(randomX, randomY, 'sodaSprite');
+  }
+
+  updateTimer() {
+    this.timeElapsed++;
+
+    let minutes = Math.floor(this.timeElapsed / 60);
+    let seconds = this.timeElapsed % 60;
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    this.timerText.setText(`Time: ${minutes}:${seconds}`);
+
+    if (this.timeElapsed === 10) {
+      this.data.set('checkpoint', 1);
+    }
   }
 
   update(time, delta) {
