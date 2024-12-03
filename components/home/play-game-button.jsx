@@ -9,7 +9,7 @@ const PlayGameButton = (user) => {
   const router = useRouter();
 
   const onClick = () => {
-    user.gameState ? setModalOpen(!modalOpen) : router.push(`/game?u=${user.user.id}`)
+    user.user.gameState !== null ? setModalOpen(!modalOpen) : router.push(`/game?u=${user.user.id}`)
   };
   
   return ( 
@@ -21,7 +21,7 @@ const PlayGameButton = (user) => {
         >
         New Game!
       </button>
-      {(modalOpen && user.gameState) && (
+      {modalOpen && (
       <div className="absolute top-0 w-screen h-screen items-center flex justify-center bg-black/50">
         <div className="w-2/5 h-3/5 bg-gray-300 items-center rounded-lg pt-4">
           <div className="flex flex-col space-y-4">
@@ -34,7 +34,7 @@ const PlayGameButton = (user) => {
               <Button
                 className="outline outline-1 w-[200px]"
                 variant="auth"
-                onClick={() => {router.push('/game')}}
+                onClick={() => {router.push(`/game?u=${user.user.id}`)}}
                 >
                 YES, proceed
               </Button>

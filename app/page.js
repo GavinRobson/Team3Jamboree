@@ -15,12 +15,15 @@ export default async function Home() {
         <p style={{fontSize: '34px'}}>Welcome to </p>
         <h1 style={{fontSize: '54px'}}>The College Experience Game </h1>
         <p>Move your cursor to control your character and survive as long as possible</p>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", marginTop: "150px"}}>
+        {user.score !== null && (<p className="mt-32 text-xl">High Score: {user.score}</p>)}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px", marginTop: `${user.score !== null ? '30px' : '100px'}`}}>
           <PlayGameButton  user={user}/>
           {session 
             ? (
               <>
-                <LoadSaveButton user={user}/>
+                {user.gameState !== null && (
+                  <LoadSaveButton user={user}/>
+                )}
                 <SignOutButton />
               </>
           ) : (

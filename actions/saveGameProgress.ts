@@ -2,38 +2,28 @@ import { db } from "@/lib/db"
 
 export const saveGameProgress = async (
   userId: string, 
-  gameStateData: { 
-    checkpoint: number; 
-    level: number; 
-    health: number 
-  },
-  weapons: string[],
-  powerups: string[],
+  checkpoint: number,
+  score: number,
+  health: number,
+  currentWeapon: number
 ) => {
   if (!userId) return null;
   try {
-    const inventory = await db.inventory.upsert({
-      where: { gameState_id: userId },
-      update: {
-        weapon_ids: weapons,
-        powerup_ids: powerups,
-      },
-      create: {
-        weapon_ids: weapons,
-        powerup_ids: powerups,
-        gameState: { create: gameStateData }
-      }
-    });
+    await db.gameState.delete({
+      where: { userId: userId }
+    })
 
-    const gameState = await db.gameState.upsert({
-      where: { user_id: userId },
-      update: gameStateData,
-      create: {
-        ...gameStateData,
-        user: { connect: { id: userId } },
-        inventory: { create: { id: inventory.id } }
+    const gameState = await db.gameState.create({
+      data: {
+        checkpoint,
+        score,
+        health,
+        currentWeapon,
+        connect: {
+          user_id: userId
+        }
       }
-    });
+    })
 
     console.log('GameState saved:', gameState);
     return gameState;

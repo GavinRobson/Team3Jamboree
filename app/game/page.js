@@ -9,6 +9,10 @@ import { useSearchParams } from "next/navigation";
 export default function GamePage() {
   const searchParams = useSearchParams();
   const userId = searchParams.get('u');
+  const checkpoint = searchParams.get('checkpoint');
+  const score = searchParams.get('score');
+  const health = searchParams.get('health');
+  const currentWeapon = searchParams.get('currentWeapon');
 
   const gameContainerRef = useRef(null);
   const canvasRef = useRef(null);
@@ -29,10 +33,15 @@ export default function GamePage() {
         },
       },
     };
-    console.log(config)
     // Initialize Phaser game instance
     const game = new Phaser.Game(config);
-    game.scene.start('GameScene', { userId: userId })
+    game.scene.start('GameScene', { 
+      userId: userId,
+      checkpoint,
+      score,
+      health,
+      currentWeapon
+    })
 
     // Cleanup function to destroy the Phaser instance when component unmounts
     return () => {

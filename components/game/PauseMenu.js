@@ -1,6 +1,3 @@
-import { auth } from "@/auth";
-import { getUserById } from "@/data/user";
-
 export default class PauseMenu extends Phaser.Scene {
   constructor() {
     super('PauseMenu')
@@ -46,13 +43,12 @@ export default class PauseMenu extends Phaser.Scene {
       this.scene.stop();
     });
 
-    saveAndQuitButton.on('pointerdown', () => {
+    saveAndQuitButton.on('pointerdown', async () => {
         const checkpoint = this.scene.get('GameScene').data.get('checkpoint');
-        const level = this.scene.get('GameScene').data.get('level');
+        const score = this.scene.get('GameScene').data.get('score');
         const health = this.scene.get('GameScene').data.get('health');
-        const weapons = this.scene.get('GameScene').data.get('weapons');
-        const powerups = this.scene.get('GameScene').data.get('powerups');
-        console.log(checkpoint, level, health, weapons, powerups)
+        const currentWeapon = this.scene.get('GameScene').data.get('currentWeapon');
+       window.location.href = `/save?userId=${this.userId}&checkpoint=${checkpoint}&score=${score}&health=${health}&currentWeaponId=${currentWeapon.id}`;
     })
   }
 }

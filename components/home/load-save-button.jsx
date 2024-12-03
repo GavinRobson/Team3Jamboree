@@ -1,16 +1,20 @@
+'use client';
+
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const LoadSaveButton = (user) => {
-  if (!user) {
-    return null;
+  const router = useRouter();
+  const onClick = () => {
+    const gameState = user.user.gameState
+    router.push(`/game?u=${user.user.id}&checkpoint=${gameState.checkpoint}&score=${gameState.score}&health=${gameState.health}&currentWeapon=${gameState.currentWeapon}&id=${gameState.id}`)
   }
-  
-  if (!user.gameState) {
-    return null;
-  }
-
   return ( 
-    <Button variant="auth" className="outline outline-1 w-[200px]">
+    <Button 
+      onClick={onClick}
+      variant="auth" 
+      className="outline outline-1 w-[200px]"
+    >
       Load Save
     </Button>
    );

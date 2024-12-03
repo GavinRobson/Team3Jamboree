@@ -23,22 +23,12 @@ model User {
 }
 
 model GameState {
-  id         String @id @default(cuid())
-  checkpoint Int
-  level      Int
-  health     Int
+  id            String @id @default(cuid())
+  checkpoint    Int
+  score         Int
+  health        Int
+  currentWeapon Int?
 
   user    User?   @relation("UserGameState", fields: [user_id], references: [id])
   user_id String? @unique
-
-  inventory    Inventory? @relation(fields: [inventory_id], references: [id])
-  inventory_id String?    @unique
-}
-
-model Inventory {
-  id          String   @id @default(cuid())
-  weapon_ids  String[]
-  powerup_ids String[]
-
-  gameState GameState?
 }
