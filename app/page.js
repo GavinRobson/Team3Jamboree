@@ -10,7 +10,7 @@ export default async function Home() {
   const user = await getUserById(session?.user?.id);
   console.log(user)
   return (
-    <div style = {{margin: 0, alignItems: "center", backgroundImage: "url(StartScreen.png)", backgroundSize: "cover", backgroundPosition: "center", height: "100vh", overflow: "hidden"}} >
+    <div style = {{margin: 0, alignItems: "center", backgroundImage: "url(/StartScreen.png)", backgroundSize: "cover", backgroundPosition: "center", height: "100vh", overflow: "hidden"}} >
       <div style={{ textAlign: "center", padding: "10px 20px",marginTop: "100px"}}> 
         <p style={{fontSize: '34px'}}>Welcome to </p>
         <h1 style={{fontSize: '54px'}}>The College Experience Game </h1>
