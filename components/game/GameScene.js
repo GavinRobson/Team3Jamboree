@@ -6,11 +6,13 @@ export default class GameScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
-
+  init(data) {
+    this.userId = data.userId;
+    console.log('User ID in GameScene:', this.userId);
+  }
   preload() {
     this.load.tilemapTiledJSON("map", "Background_Map.json");
     this.load.image("tiles", "tilemap_packed.png");
-    this.load.image("map", "map.jpg");
     
     this.load.spritesheet("playerSprite", "Sprites/SimonWalk.png", {
       frameWidth: 16,
@@ -46,7 +48,7 @@ export default class GameScene extends Phaser.Scene {
     const screenWidth = this.cameras.main.width;
     const horizontalOffset = (screenWidth - mapWidth) / 2;
     
-    this.topText = this.add.text(horizontalOffset + 16, 16, 'Score: 0', { fontSize: '24px', fill: '#ffffff' })
+    this.topText = this.add.text(horizontalOffset + 16, 16, 'Score: 0', { fontSize: '24px', fill: '#000000' })
     this.topText.setScrollFactor(0);
     this.topText.setDepth(10)
     // Create layers and shift them by the horizontal offset
@@ -63,6 +65,14 @@ export default class GameScene extends Phaser.Scene {
 
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
+    // Pause functionality
+    this.input.keyboard.on('keydown-P', () => {
+      this.scene.pause();
+      this.scene.launch('PauseMenu', { userId: this.userId });
+    })
+
+    this.pauseText = this.add.text(mapWidth - 80, 16, 'Press P to Pause', { fontSize: '24px', fill: '#000000' });
+    this.pauseText.setScrollFactor(0)
 
     // Sets up the animation for the player.
     this.anims.create({
@@ -161,6 +171,27 @@ export default class GameScene extends Phaser.Scene {
       callbackScope: this,
       loop: true,
     });
+
+    this.timerText = this.add.text(screenWidth / 2, 16, `Time: 0:00`, { fontSize: '24px', fill: '#000000' })
+    this.timerText.setOrigin(0.5);
+    this.timerText.setScrollFactor(0);
+    this.timerText.setDepth(10);
+
+    this.timeElapsed = 0;
+    this.timerEvent = this.time.addEvent({
+      delay: 1000,
+      callback: this.updateTimer,
+      callbackScope: this,
+      loop: true
+    })
+
+    //set new gamestate
+    this.data.set('checkpoint', 0);
+    this.data.set('level', 0);
+    this.data.set('score', 0);
+    this.data.set('health', 100);
+    this.data.set('weapons', ["0"]);
+    this.data.set('powerups', []);
   }
 
   spawnPowerup() {
@@ -187,6 +218,21 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 */
+
+  updateTimer() {
+    this.timeElapsed++;
+
+    let minutes = Math.floor(this.timeElapsed / 60);
+    let seconds = this.timeElapsed % 60;
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    this.timerText.setText(`Time: ${minutes}:${seconds}`);
+
+    if (this.timeElapsed === 10) {
+      this.data.set('checkpoint', 1);
+    }
+  }
   update(time, delta) {
     // Update player
     this.player.update(this.input.keyboard.createCursorKeys(), this.pointer);
