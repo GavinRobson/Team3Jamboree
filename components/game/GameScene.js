@@ -38,23 +38,28 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.topText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#ffffff' })
+    this.map = this.make.tilemap({ key: "map", tileWidth: 16, tileHeight: 16 });
+    const tileset = this.map.addTilesetImage("tilemap_packed", "tiles");
+    
+    // Calculate the offset needed to center the map horizontally
+    const mapWidth = this.map.widthInPixels;
+    const screenWidth = this.cameras.main.width;
+    const horizontalOffset = (screenWidth - mapWidth) / 2;
+    
+    this.topText = this.add.text(horizontalOffset + 16, 16, 'Score: 0', { fontSize: '24px', fill: '#ffffff' })
     this.topText.setScrollFactor(0);
     this.topText.setDepth(10)
-    this.map = this.make.tilemap({key: "map", tileWidth: 16, tileHeight: 16});
-    const tileset = this.map.addTilesetImage("tilemap_packed", "tiles");
-    const grasslayer = this.map.createLayer("Grass", tileset, 0, 0);
-    const roadlayer = this.map.createLayer("Roads", tileset, 0, 0);
-    const schoollayer = this.map.createLayer("School background", tileset, 0, 0);
-    const signallayer = this.map.createLayer("Signals", tileset, 0, 0);
-    const trees1layer = this.map.createLayer("TreesLayer1", tileset, 0, 0);
-    const trees2layer = this.map.createLayer("TreesLayer2", tileset, 0, 0);
-    const trees3layer = this.map.createLayer("TreesLayer3", tileset, 0, 0);
-    const windowandoorlayer = this.map.createLayer("Windows and Doors", tileset, 0, 0);
+    // Create layers and shift them by the horizontal offset
+    const grasslayer = this.map.createLayer("Grass", tileset, horizontalOffset, 0);
+    const roadlayer = this.map.createLayer("Roads", tileset, horizontalOffset, 0);
+    const schoollayer = this.map.createLayer("School background", tileset, horizontalOffset, 0);
+    const signallayer = this.map.createLayer("Signals", tileset, horizontalOffset, 0);
+    const trees1layer = this.map.createLayer("TreesLayer1", tileset, horizontalOffset, 0);
+    const trees2layer = this.map.createLayer("TreesLayer2", tileset, horizontalOffset, 0);
+    const trees3layer = this.map.createLayer("TreesLayer3", tileset, horizontalOffset, 0);
+    const windowandoorlayer = this.map.createLayer("Windows and Doors", tileset, horizontalOffset, 0);
 
-
-    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
+    this.physics.world.setBounds(horizontalOffset, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
