@@ -248,6 +248,7 @@ export default class GameScene extends Phaser.Scene {
       loop: false
     })
 
+    this.scene.launch('ChatMenu')
   }
 
   spawnPowerup() {
