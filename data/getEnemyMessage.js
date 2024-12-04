@@ -1,10 +1,10 @@
 import OpenAI from "openai";
-import dotenv from 'dotenv';
-
 
 export const getEnemyMessage = async (health) => {
-  dotenv.config();
-  const openai = new OpenAI({ apiKey: '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', dangerouslyAllowBrowser: true });
+  const openai = new OpenAI({ 
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, 
+    dangerouslyAllowBrowser: true 
+  });
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
     messages: [
