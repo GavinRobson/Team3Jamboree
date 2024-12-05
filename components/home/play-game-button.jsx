@@ -7,8 +7,12 @@ import { Button } from "../ui/button";
 const PlayGameButton = (user) => {
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
-
+  
   const onClick = () => {
+    if (!user.user) {
+      router.push('/auth/login');
+      return;
+    }
     user.user.gameState !== null ? setModalOpen(!modalOpen) : router.push(`/game?u=${user.user.id}`)
   };
   
