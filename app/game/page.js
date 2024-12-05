@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import * as Phaser from "phaser";
 import GameScene from "@/components/game/GameScene";
 import PauseMenu from "@/components/game/PauseMenu";
+import ChatMenu from "@/components/game/ChatMenu";
 import { useSearchParams } from "next/navigation";
 
 export default function GamePage() {
@@ -25,7 +26,7 @@ export default function GamePage() {
       height: window.innerHeight,
       parent: gameContainerRef.current,
       canvas: canvasRef.current,
-      scene: [GameScene, PauseMenu],
+      scene: [GameScene, PauseMenu, ChatMenu],
       physics: {
         default: "arcade",
         arcade: {
