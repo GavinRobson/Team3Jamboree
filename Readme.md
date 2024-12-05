@@ -10,6 +10,14 @@ Kevin Anderson
 You will need node.js to run this code.
 After you have node.js installed, follow the directions below.
 
+Entering API Keys:
+create .env file in root directory with the following variables:
+DATABASE_URL               = <database_url>
+DIRECT_URL                 = <direct_url>
+NEXTAUTH_SECRET            = "SECRET" #Literally
+NEXTAUTH_JWT_SECRET        = "SECRET" #Literally
+NEXT_PUBLIC_OPENAI_API_KEY = <openai_api_key>
+
 To run the code do the following in terminal:
 npm i [to install necessary dependencies if you already installed node.js]
 npx prisma generate [Sets up the database stuff]
